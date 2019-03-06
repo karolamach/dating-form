@@ -1,0 +1,80 @@
+
+# ALT + Enter  to skrót do autopodpowiedzi
+import sys
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QLineEdit, QFrame, QRadioButton, QComboBox, QPushButton
+
+
+class App(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initGUI()
+    def initGUI(self):
+
+        self.lblInfo = QLabel("Zapisz się", self)
+        self.lblInfo.move(20,20)
+        self.txtName = QLineEdit(self)
+        self.txtName.setPlaceholderText("Imię")
+        self.txtName.move(20,50)
+        self.txtPhone = QLineEdit(self)
+        self.txtPhone.setPlaceholderText("Telefon")
+        self.txtPhone.move(20,80)
+
+        # RadioButton: (pola wyboru)
+
+        gender = QFrame(self)
+        self.rbMale = QRadioButton("Mezczyzna" , gender)
+        self.rbMale.setChecked(True)
+        self.rbMale.move(20,110)
+        self.rbFemale = QRadioButton("Kobieta", gender)
+        self.rbFemale.move(20,130)
+
+        # ComboBox
+
+        self.cbActivity = QComboBox(self)
+        self.cbActivity.addItem("kino/teatr")
+        self.cbActivity.addItem("wspolne programowanie")
+        self.cbActivity.addItem("kolacja")
+        self.cbActivity.move(20,160)
+
+        # button-potwierdzenia
+
+        self.btnSubmit = QPushButton("Send", self)
+        self.btnSubmit.move(20,190)
+        self.btnSubmit.clicked.connect(self.sendAction)
+
+
+
+        self.setGeometry(300,300,300,300)
+        self.setWindowTitle("Walentynki")
+        self.show()
+
+    # obsluga-klikniecia
+    def sendAction(self):
+        if (self.txtName.text() and self.txtPhone.text()):
+
+            gender = "mezczyzna"
+
+            if (self.rbFemale.isChecked()):
+
+                gender = 'kobieta'
+
+            print ("%15s | %10s | %10s | %20s" %
+            (self.txtName.text(), self.txtPhone.text(), gender, self.cbActivity.currentText()))
+            self.lblInfo.setText("Dzięki!")
+
+
+        else:
+
+            self.lblInfo.setText("Uzupelnij wszystkie pola!")
+
+
+# Obiekt-aplikacji
+
+app = QApplication(sys.argv)
+example = App()
+sys.exit(app.exec_())
+
+
+
+
+
